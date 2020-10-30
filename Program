@@ -5,22 +5,24 @@ print('Hello, ' + name)
 score = 0
 my_file = open('rating.txt', 'r+')
 
-def win(wybor):
+def win(choice):
     global score
     score += 100
-    print("Well done. The computer chose %s and failed." %(wybor))
+    print("Well done. The computer chose %s and failed." % (choice))
 
-def lose(wybor):
-    print("Sorry, but the computer chose %s" % wybor)
+def lose(choice):
+    print("Sorry, but the computer chose %s" % choice)
 
-def draw(wybor):
+def draw(choice):
     global score
     score += 50
-    print("There is a draw %s" %wybor)
+    print("There is a draw %s" %choice)
 
-lista_postaci = input()
-if lista_postaci:
-    lista_postaci = lista_postaci.split(',')
+character_list = input()
+print("Okay, let's start")
+
+if character_list:
+    character_list = character_list.split(',')
     for line in my_file:
         if name in line:
             line = line.split()
@@ -29,71 +31,69 @@ if lista_postaci:
         else:
             score = 0
 
-    lista_postaci = list(lista_postaci)
-    print("Okay, let's start")
+    character_list = list(character_list)
 
-    dlugosc = len(lista_postaci)
-    dlugosc_bicia = dlugosc // 2
-    srodek = dlugosc // 2
+    leng = len(character_list)
+    middle = leng // 2
 
     for _ in range(100):
 
-        wybor_cz = input()
-        if wybor_cz == '!rating':
+        my_choice = input()
+        if my_choice == '!rating':
             print('Your rating:', score)
-        elif wybor_cz == "!exit":
+        elif my_choice == "!exit":
             print("Bye!")
             break
-        elif wybor_cz not in lista_postaci:
+        elif my_choice not in character_list:
                 print("Invalid input!")
 
         else:
-            numer = lista_postaci.index(wybor_cz)
-            roznica = 0
-            wybor_k = random.choice(lista_postaci)
+            number = character_list.index(my_choice)
+            diff = 0
+            comp_choice = random.choice(character_list)
 
-            if numer == srodek:
-                if wybor_k in lista_postaci[srodek+1:]:
-                    lose(wybor_k)
-                elif wybor_k in lista_postaci[srodek]:
-                    draw(wybor_k)
-                elif wybor_k in lista_postaci[:srodek]:
-                    win(wybor_k)
+            if number == middle:
+                if comp_choice in character_list[middle + 1:]:
+                    lose(comp_choice)
+                elif comp_choice in character_list[middle]:
+                    draw(comp_choice)
+                elif comp_choice in character_list[:middle]:
+                    win(comp_choice)
 
-            elif numer > srodek and numer < dlugosc - 1:
-                roznica = numer - srodek
-                if wybor_k in lista_postaci[numer+1:] or wybor_k in lista_postaci[:roznica]:
-                    lose(wybor_k)
-                elif wybor_k in lista_postaci[numer]:
-                    draw(wybor_k)
-                elif wybor_k in lista_postaci[roznica:numer]:
-                    win(wybor_k)
-            elif numer > srodek and numer == dlugosc-1:
-                roznica = numer - srodek
-                if wybor_k in lista_postaci[:srodek]:
-                    lose(wybor_k)
-                elif wybor_k in lista_postaci[numer]:
-                    draw(wybor_k)
-                elif wybor_k in lista_postaci[srodek:numer]:
-                    win(wybor_k)
+            elif number > middle and number < leng - 1:
+                diff = number - middle
+                if comp_choice in character_list[number + 1:] or comp_choice in character_list[:diff]:
+                    lose(comp_choice)
+                elif comp_choice in character_list[number]:
+                    draw(comp_choice)
+                elif comp_choice in character_list[diff:number]:
+                    win(comp_choice)
+            elif number > middle and number == leng-1:
+                diff = number - middle
+                if comp_choice in character_list[:middle]:
+                    lose(comp_choice)
+                elif comp_choice in character_list[number]:
+                    draw(comp_choice)
+                elif comp_choice in character_list[middle:number]:
+                    win(comp_choice)
 
-            elif numer < srodek and numer != 0:
-                roznica = srodek - numer
-                if wybor_k in lista_postaci[numer+1:roznica+srodek+1]:
-                    lose(wybor_k)
-                elif wybor_k in lista_postaci[numer]:
-                    draw(wybor_k)
-                elif wybor_k in lista_postaci[roznica+srodek+1:] or wybor_k in lista_postaci[:numer]:
-                    win(wybor_k)
+            elif number < middle and number != 0:
+                diff = middle - number
+                if comp_choice in character_list[number + 1:diff + middle + 1]:
+                    lose(comp_choice)
+                elif comp_choice in character_list[number]:
+                    draw(comp_choice)
+                elif comp_choice in character_list[diff + middle + 1:] or comp_choice in character_list[:number]:
+                    win(comp_choice)
 
-            elif numer < srodek and numer == 0:
-                roznica = srodek - numer
-                if wybor_k in lista_postaci[numer+1:srodek+1]:
-                   lose(wybor_k)
-                elif wybor_k in lista_postaci[numer]:
-                    draw(wybor_k)
-                elif wybor_k in lista_postaci[srodek+1:]:
-                    win(wybor_k)
+            elif number < middle and number == 0:
+                diff = middle - number
+                if comp_choice in character_list[number + 1:middle + 1]:
+                   lose(comp_choice)
+                elif comp_choice in character_list[number]:
+                    draw(comp_choice)
+                elif comp_choice in character_list[middle + 1:]:
+                    win(comp_choice)
 
 
 
@@ -108,29 +108,29 @@ else:
             score = 0
 
     for _ in range(100):
-        wybor_cz = input()
-        wybor_k = random.choice(['paper', 'rock', 'scissors'])
-        if (wybor_k == wybor_cz):
+        my_choice = input()
+        comp_choice = random.choice(['paper', 'rock', 'scissors'])
+        if (comp_choice == my_choice):
             score += 50
-            print("There is a draw %s" %(wybor_k))
-        elif wybor_cz == '!rating':
+            print("There is a draw %s" % (comp_choice))
+        elif my_choice == '!rating':
                 print('Your rating: ', score)
-        elif wybor_cz == 'paper':
-            if wybor_k == 'rock':
-                win(wybor_k)
-            if wybor_k == 'scissors':
-                lose(wybor_k)
-        elif wybor_cz == 'rock':
-            if wybor_k == 'scissors':
-                win(wybor_k)
-            if wybor_k == 'paper':
-                lose(wybor_k)
-        elif wybor_cz == 'scissors':
-            if wybor_k == 'paper':
-                win(wybor_k)
-            if wybor_k == 'rock':
-                lose(wybor_k)
-        elif wybor_cz == "!exit":
+        elif my_choice == 'paper':
+            if comp_choice == 'rock':
+                win(comp_choice)
+            if comp_choice == 'scissors':
+                lose(comp_choice)
+        elif my_choice == 'rock':
+            if comp_choice == 'scissors':
+                win(comp_choice)
+            if comp_choice == 'paper':
+                lose(comp_choice)
+        elif my_choice == 'scissors':
+            if comp_choice == 'paper':
+                win(comp_choice)
+            if comp_choice == 'rock':
+                lose(comp_choice)
+        elif my_choice == "!exit":
             print("Bye!")
             break
         else:
