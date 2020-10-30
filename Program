@@ -1,0 +1,139 @@
+import random
+print("Enter your name: ", end='')
+name = input()
+print('Hello, ' + name)
+score = 0
+my_file = open('rating.txt', 'r+')
+
+def win(wybor):
+    global score
+    score += 100
+    print("Well done. The computer chose %s and failed." %(wybor))
+
+def lose(wybor):
+    print("Sorry, but the computer chose %s" % wybor)
+
+def draw(wybor):
+    global score
+    score += 50
+    print("There is a draw %s" %wybor)
+
+lista_postaci = input()
+if lista_postaci:
+    lista_postaci = lista_postaci.split(',')
+    for line in my_file:
+        if name in line:
+            line = line.split()
+            score = int(line[1])
+            break
+        else:
+            score = 0
+
+    lista_postaci = list(lista_postaci)
+    print("Okay, let's start")
+
+    dlugosc = len(lista_postaci)
+    dlugosc_bicia = dlugosc // 2
+    srodek = dlugosc // 2
+
+    for _ in range(100):
+
+        wybor_cz = input()
+        if wybor_cz == '!rating':
+            print('Your rating:', score)
+        elif wybor_cz == "!exit":
+            print("Bye!")
+            break
+        elif wybor_cz not in lista_postaci:
+                print("Invalid input!")
+
+        else:
+            numer = lista_postaci.index(wybor_cz)
+            roznica = 0
+            wybor_k = random.choice(lista_postaci)
+
+            if numer == srodek:
+                if wybor_k in lista_postaci[srodek+1:]:
+                    lose(wybor_k)
+                elif wybor_k in lista_postaci[srodek]:
+                    draw(wybor_k)
+                elif wybor_k in lista_postaci[:srodek]:
+                    win(wybor_k)
+
+            elif numer > srodek and numer < dlugosc - 1:
+                roznica = numer - srodek
+                if wybor_k in lista_postaci[numer+1:] or wybor_k in lista_postaci[:roznica]:
+                    lose(wybor_k)
+                elif wybor_k in lista_postaci[numer]:
+                    draw(wybor_k)
+                elif wybor_k in lista_postaci[roznica:numer]:
+                    win(wybor_k)
+            elif numer > srodek and numer == dlugosc-1:
+                roznica = numer - srodek
+                if wybor_k in lista_postaci[:srodek]:
+                    lose(wybor_k)
+                elif wybor_k in lista_postaci[numer]:
+                    draw(wybor_k)
+                elif wybor_k in lista_postaci[srodek:numer]:
+                    win(wybor_k)
+
+            elif numer < srodek and numer != 0:
+                roznica = srodek - numer
+                if wybor_k in lista_postaci[numer+1:roznica+srodek+1]:
+                    lose(wybor_k)
+                elif wybor_k in lista_postaci[numer]:
+                    draw(wybor_k)
+                elif wybor_k in lista_postaci[roznica+srodek+1:] or wybor_k in lista_postaci[:numer]:
+                    win(wybor_k)
+
+            elif numer < srodek and numer == 0:
+                roznica = srodek - numer
+                if wybor_k in lista_postaci[numer+1:srodek+1]:
+                   lose(wybor_k)
+                elif wybor_k in lista_postaci[numer]:
+                    draw(wybor_k)
+                elif wybor_k in lista_postaci[srodek+1:]:
+                    win(wybor_k)
+
+
+
+
+else:
+    for line in my_file:
+        if name in line:
+            line = line.split()
+            score = int(line[1])
+            break
+        else:
+            score = 0
+
+    for _ in range(100):
+        wybor_cz = input()
+        wybor_k = random.choice(['paper', 'rock', 'scissors'])
+        if (wybor_k == wybor_cz):
+            score += 50
+            print("There is a draw %s" %(wybor_k))
+        elif wybor_cz == '!rating':
+                print('Your rating: ', score)
+        elif wybor_cz == 'paper':
+            if wybor_k == 'rock':
+                win(wybor_k)
+            if wybor_k == 'scissors':
+                lose(wybor_k)
+        elif wybor_cz == 'rock':
+            if wybor_k == 'scissors':
+                win(wybor_k)
+            if wybor_k == 'paper':
+                lose(wybor_k)
+        elif wybor_cz == 'scissors':
+            if wybor_k == 'paper':
+                win(wybor_k)
+            if wybor_k == 'rock':
+                lose(wybor_k)
+        elif wybor_cz == "!exit":
+            print("Bye!")
+            break
+        else:
+            print("Invalid input")
+
+my_file.close()
