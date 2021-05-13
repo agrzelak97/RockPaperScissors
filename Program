@@ -95,8 +95,7 @@ if character_list:
                 elif comp_choice in character_list[middle + 1:]:
                     win(comp_choice)
 
-
-
+Hello
 
 else:
     for line in my_file:
@@ -137,3 +136,5 @@ else:
             print("Invalid input")
 
 my_file.close()
+
+Hello
